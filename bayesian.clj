@@ -1,5 +1,5 @@
 (ns bayesian
-  (:use [clojure.contrib str-utils]))
+  (:use [clojure.contrib str-utils duck-streams]))
 
 (defn- compr [acc elt n lst] 
   (if (empty? lst) 
@@ -72,10 +72,10 @@
 
 (defn main []
   (let [cmd (first *command-line-args*)]
-    (condp 
+    (cond
 	(= cmd "add")
  	 (do (add-words (second *command-line-args*) 
-			(parse-file (third *command-line-args*)))
+			(parse-file (nth *command-line-args* 2)))
 	     (spit "words.clj" @words))
         (= cmd "classify")
 	 (classify @words (parse-file (second *command-line-args*))))))

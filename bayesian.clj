@@ -87,6 +87,6 @@
 			(parse-file (nth *command-line-args* 2)))
 	     (spit "/tmp/words.clj" @words))
         (= cmd "classify")
-	 (classify @words (parse-file (second *command-line-args*))))))
+	 (println (classify @words (parse-file (second *command-line-args*)))))))
 
 (main)

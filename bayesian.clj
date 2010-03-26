@@ -46,7 +46,8 @@
 (defn total-count
   "Total words across all categories."
   [db]
-  (reduce + (map #(category-count db %)  (keys db))))
+  (reduce + (map #(category-count db %)
+		 (keys db))))
 
 (defn cat-word [db cat word]
   ((db cat) word))
@@ -65,8 +66,8 @@
   (binding [total-count (memoize total-count)
 	    category-count (memoize category-count)]
     (let [categories (keys db)
-	 word-list (keys words-in-file)]
-     (println (apply merge-with +
+	  word-list (keys words-in-file)]
+      (apply merge-with +
 	     (concat 
 	      ;; Run through words and calculate the probability for each category
 	      (map (fn [word] 
@@ -76,7 +77,8 @@
 		   word-list)
 	      ;; Add in the probability that the text is of a specific category
 	      (map (fn [cat] (hash-map cat (category-score db cat)))
-		   categories)))))))
+		   categories))))))
+
 (defn main []
   (let [cmd (first *command-line-args*)]
     (cond

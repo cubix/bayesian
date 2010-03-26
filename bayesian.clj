@@ -14,7 +14,9 @@
   [x]
   (vec (compr [] (first x) 1 (rest x)))) 
 
-(defn word-count [lst]
+(defn word-count
+  "Creates a count of words by sorting and then compressing it."
+  [lst]
   (apply merge (-> lst sort compress)))
 
 (defn parse-file [file]
@@ -33,12 +35,16 @@
   (update-category category 
 		   (merge-with + (@words category) words-in-file)))
 
-(defn category-count [db cat]
+(defn category-count 
+  "Total number of words in given category."
+  [db cat]
   (let [wc (db cat)]
    (reduce + (map (fn [[word c]] c) wc))))
 (def category-count (memoize category-count))
 
-(defn total-count [db]
+(defn total-count
+  "Total words across all categories."
+  [db]
   (reduce + (map #(category-count db %)  (keys db))))
 (def total-count (memoize total-count))
 
